@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#170526">
+  <title>Naman wishes you a Happy Diwali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&family=Yatra+One&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --wine: #a80020;
+      --saffron: #ffae32;
+      --gold: #ffd879;
+      --ink: #190622;
+      --cream: #fff0c8;
+      --viewport-height: 100vh;
+      font-family: "DM Sans", sans-serif;
+    }
+
+    @supports (height: 100dvh) {
+      :root { --viewport-height: 100dvh; }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { width: 100%; height: var(--viewport-height); margin: 0; overflow: hidden; }
+    body { background: #170526; color: #fff7e6; }
+    button, input, textarea { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .scene {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .scene.active { display: flex; animation: scene-in .72s cubic-bezier(.22,.7,.25,1) both; }
+    @keyframes scene-in { from { opacity: 0; } to { opacity: 1; } }
+
+    .pattern-scene {
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(255,209,94,.22), transparent 58%),
+        linear-gradient(125deg, #f07919, #ffae2e 46%, #ef7516);
+      cursor: pointer;
+    }
+
+    .pattern-grid {
+      position: absolute;
+      inset: -18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(43px, 1fr));
+      grid-auto-rows: 40px;
+      gap: 5px;
+      transform: rotate(-2deg) scale(1.05);
+    }
+
+    .pattern-motif {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      margin: auto;
+      border: 1px solid rgba(255,226,137,.7);
+      border-radius: 50%;
+      background:
+        radial-gradient(ellipse at 50% 6%, #ffd768 0 11%, transparent 13%),
+        radial-gradient(ellipse at 94% 50%, #ffd768 0 11%, transparent 13%),
+        radial-gradient(ellipse at 50% 94%, #ffd768 0 11%, transparent 13%),
+        radial-gradient(ellipse at 6% 50%, #ffd768 0 11%, transparent 13%),
+        radial-gradient(circle, #a94216 0 18%, #ffcf54 21% 28%, #de6616 32% 100%);
+      box-shadow: 0 0 9px rgba(255,224,129,.45), inset 0 0 5px #a94216;
+      animation: motif-glow 3.2s ease-in-out infinite alternate;
+      opacity: .84;
+    }
+
+    .pattern-motif:nth-child(3n) { animation-delay: -1s; transform: scale(.78) rotate(45deg); }
+    .pattern-motif:nth-child(4n) { animation-delay: -2s; transform: scale(1.12); }
+    @keyframes motif-glow { to { filter: brightness(1.36); box-shadow: 0 0 15px rgba(255,246,174,.85); } }
+    .pattern-hint {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff5d8;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 5px #873211;
+      animation: breathe 1.8s ease-in-out infinite;
+    }
+
+    .welcome-scene {
+      background:
+        radial-gradient(ellipse at 50% 47%, rgba(238,57,38,.68), transparent 53%),
+        radial-gradient(circle at 50% 50%, #ba1021, #850016 75%, #640012);
+    }
+
+    .side-lights {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      width: 13px;
+      border: 1px solid rgba(255,209,106,.55);
+      background: linear-gradient(90deg, rgba(80,0,20,.4), rgba(255,184,80,.11), rgba(80,0,20,.4));
+      box-shadow: 0 0 13px rgba(255,175,65,.4);
+    }
+    .side-lights.left { left: 0; }
+    .side-lights.right { right: 0; }
+    .side-lights::before, .side-lights::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, #fff2a8 0 1.5px, #ff9842 2px, transparent 4px);
+      background-size: 9px 22px;
+      background-position: center top;
+      animation: twinkle 1.7s ease-in-out infinite alternate;
+    }
+    .side-lights::after { background-position: center 11px; animation-delay: -.8s; }
+    @keyframes twinkle { to { opacity: .48; filter: brightness(1.7); } }
+
+    .welcome-copy {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(8px, 1.35vh, 13px);
+      width: min(92vw, 540px);
+      padding: clamp(24px, 5vh, 46px) 20px;
+      text-align: center;
+      animation: float-in .95s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes float-in { from { transform: translateY(18px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+    .welcome-copy > * { margin: 0; }
+    .welcome-overline { color: #ffe0a2; font-size: 10px; line-height: 1.6; letter-spacing: .3em; text-transform: uppercase; }
+    .welcome-title {
+      padding: 0 0 .08em;
+      color: #ffe6a3;
+      font: 500 clamp(43px, 8vw, 76px)/1.55 "Noto Serif Devanagari", serif;
+      text-shadow: 0 2px 0 #9c431a, 0 5px 0 #69200e, 0 0 25px #ffbc43, 0 0 54px rgba(255,173,66,.66);
+      -webkit-text-stroke: .5px rgba(255,246,207,.7);
+    }
+    .welcome-sub {
+      color: #ffe3c3;
+      font: 500 clamp(13px, 2vw, 17px)/1.8 "Noto Serif Devanagari", serif;
+      letter-spacing: .06em;
+    }
+    .wish-badge {
+      display: inline-block;
+      padding: 7px 22px 9px;
+      border: 2px solid #ffd66c;
+      border-radius: 11px;
+      background: linear-gradient(145deg, #ffdc7e, #f7a932);
+      box-shadow: 0 4px 0 #a64e16, 0 0 21px rgba(255,207,84,.58), inset 0 1px 4px #fff3bd;
+      color: #a60054;
+      font: 700 clamp(23px, 4vw, 34px)/1.45 "Noto Serif Devanagari", serif;
+      text-shadow: 0 1px 0 #fff0b0;
+    }
+    .begin-button {
+      display: block;
+      min-width: 154px;
+      padding: 11px 26px;
+      border: 1px solid #ffe4a0;
+      border-radius: 999px;
+      background: linear-gradient(#ffe69a, #f7ae3c);
+      box-shadow: 0 0 20px rgba(255,219,129,.68), inset 0 1px 2px white;
+      color: #781321;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      animation: breathe 2s ease-in-out infinite;
+      transition: transform .2s, filter .2s;
+    }
+    .begin-button:hover { transform: translateY(-2px); filter: brightness(1.12); }
+    @keyframes breathe { 50% { box-shadow: 0 0 30px rgba(255,224,133,.95), inset 0 1px 2px white; } }
+
+    .diya-scene {
+      position: relative;
+      color: #6a331c;
+      background:
+        radial-gradient(ellipse at 50% 55%, #fff3d4 0, #f1d59f 48%, #d8b67f 100%);
+      transition: background 2s ease;
+    }
+    .diya-scene::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 48%, rgba(255,201,87,.48), rgba(255,167,47,.2) 24%, transparent 58%);
+      opacity: 0;
+      transition: opacity 1.8s ease;
+    }
+    .diya-scene.lit::before { opacity: 1; }
+    .diya-scene.lit {
+      background:
+        radial-gradient(ellipse at 50% 48%, #f5d399, #d2ae7e 49%, #755641);
+    }
+    .diya-layout {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: min(90vw, 430px);
+      text-align: center;
+    }
+    .diya-svg {
+      width: min(46vw, 244px);
+      max-height: 49vh;
+      overflow: visible;
+      filter: drop-shadow(0 13px 15px rgba(99,47,19,.2));
+      cursor: pointer;
+      transition: transform .4s;
+    }
+    .diya-svg:hover { transform: scale(1.025); }
+    .diya-instruction {
+      margin: 0;
+      color: #76503b;
+      font-size: 12px;
+      line-height: 1.7;
+      letter-spacing: .05em;
+    }
+    .diya-greeting {
+      min-height: 26px;
+      margin: 0;
+      color: #fff1be;
+      font: 600 16px/1.8 "Noto Serif Devanagari", serif;
+      opacity: 0;
+      text-shadow: 0 1px 8px #fa951e;
+      transition: opacity .8s;
+    }
+    .diya-scene.lit .diya-greeting { opacity: 1; }
+    .flame-group {
+      opacity: 0;
+      transform-box: view-box;
+      transform-origin: 160px 190px;
+    }
+    .diya-scene.lit .flame-group {
+      opacity: 1;
+      animation: flame-flicker .72s ease-in-out infinite alternate, flame-ignite .65s cubic-bezier(.16,1,.3,1) both;
+    }
+    .diya-aura {
+      opacity: 0;
+      transform-box: view-box;
+      transform-origin: 160px 177px;
+    }
+    .diya-scene.lit .diya-aura {
+      opacity: .8;
+      animation: aura-pulse 2.8s ease-in-out infinite alternate, flame-ignite .9s ease-out both;
+    }
+    @keyframes flame-ignite { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes flame-flicker {
+      from { transform: rotate(-3deg) scale(.94, .96); filter: drop-shadow(0 0 7px #ff8d24); }
+      to { transform: rotate(3deg) scale(1.035, 1.08); filter: drop-shadow(0 0 18px #ffca56); }
+    }
+    @keyframes aura-pulse { from { transform: scale(.88); opacity: .48; } to { transform: scale(1.08); opacity: .88; } }
+    .diya-flower { animation: flower-sway 2s ease-in-out infinite alternate; transform-origin: center; }
+    @keyframes flower-sway { to { transform: rotate(8deg); } }
+
+    .night-scene, .final-scene {
+      background:
+        radial-gradient(ellipse at 51% 47%, #230d3b 0, #18062a 48%, #0c0316 100%);
+    }
+    .night-scene::before, .final-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(circle, rgba(255,255,255,.75) 0 1px, transparent 1.5px);
+      background-size: 81px 79px;
+      opacity: .27;
+      animation: stars 5s ease-in-out infinite alternate;
+    }
+    @keyframes stars { to { opacity: .55; } }
+    .sky-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .rocket-wrap {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      justify-items: center;
+      gap: 24px;
+      width: 220px;
+      text-align: center;
+    }
+    .rocket-button {
+      position: relative;
+      width: 70px;
+      height: 157px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: transform .9s cubic-bezier(.22,.72,.18,1), opacity .55s ease;
+    }
+    .rocket-art {
+      position: absolute;
+      top: 10px;
+      left: 17px;
+      width: 36px;
+      height: 91px;
+      border: 2px solid #ffbc53;
+      border-radius: 47% 47% 8px 8px;
+      background: linear-gradient(90deg, #970018, #ee2536 48%, #a70022);
+      box-shadow: 0 0 17px rgba(255,72,64,.28), inset 0 0 10px rgba(255,202,79,.24);
+    }
+    .rocket-art::before {
+      content: "";
+      position: absolute;
+      top: -13px;
+      left: 2px;
+      width: 27px;
+      height: 27px;
+      border-radius: 100% 0 0;
+      transform: rotate(45deg);
+      background: #c5122e;
+      border-top: 2px solid #ffd269;
+      border-left: 2px solid #ffd269;
+    }
+    .rocket-art::after {
+      content: "✦\A ✧\A ✦";
+      white-space: pre;
+      position: absolute;
+      inset: 26px 0 auto;
+      color: #ffe27e;
+      font-size: 12px;
+      line-height: 18px;
+      text-align: center;
+    }
+    .rocket-fin {
+      position: absolute;
+      z-index: -1;
+      top: 76px;
+      width: 17px;
+      height: 28px;
+      background: linear-gradient(#ef2437, #9a001d);
+      border: 1px solid #ffc45b;
+    }
+    .rocket-fin.left { left: 5px; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+    .rocket-fin.right { right: 5px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+    .rocket-tail {
+      position: absolute;
+      top: 101px;
+      left: 34px;
+      width: 3px;
+      height: 51px;
+      background: linear-gradient(#ffce53, #f77831, transparent);
+      filter: drop-shadow(0 0 5px #ffd45e);
+    }
+    .rocket-tail::before {
+      content: "· ✧ · ✦ · ✧ ·";
+      position: absolute;
+      top: 8px;
+      left: -20px;
+      width: 44px;
+      color: #ffd76f;
+      font-size: 13px;
+      line-height: 13px;
+      word-break: break-all;
+    }
+    .rocket-button.launching { transform: translateY(-110vh) scale(.75); opacity: 0; }
+    .rocket-button.launching .rocket-tail { height: 200px; width: 6px; filter: drop-shadow(0 0 12px #ff9d39); }
+    .rocket-instruction {
+      margin: 0;
+      color: #fff1dc;
+      font-size: 12px;
+      line-height: 1.7;
+      letter-spacing: .04em;
+      text-shadow: 0 1px 8px #a886ba;
+    }
+    .comment-prompt {
+      position: absolute;
+      bottom: 7%;
+      z-index: 2;
+      color: #ffe7c0;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    .form-scene {
+      background: radial-gradient(ellipse at center, #29103d 0, #180629 54%, #0c0316 100%);
+    }
+    .form-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      z-index: 2;
+      width: min(90vw, 380px);
+      max-height: calc(var(--viewport-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);
+      overflow-y: auto;
+      padding: 24px 25px 22px;
+      border: 1.5px solid #e8a343;
+      border-radius: 19px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(255,255,255,.62), transparent 38%),
+        linear-gradient(155deg, #ffedc0 3%, #ffc16c 65%, #ef813d);
+      box-shadow: 0 0 38px rgba(255,155,60,.32), 0 19px 55px rgba(0,0,0,.4), inset 0 0 0 4px rgba(255,239,197,.45);
+      color: #641724;
+      text-align: center;
+      animation: card-in .7s cubic-bezier(.2,.75,.25,1) both;
+      scrollbar-width: none;
+    }
+    .form-card::-webkit-scrollbar { display: none; }
+    .form-card > * { margin-block: 0; }
+    @keyframes card-in { from { opacity: 0; transform: translateY(18px) scale(.88); } to { opacity: 1; transform: none; } }
+    .card-ornament {
+      display: block;
+      align-self: center;
+      width: 37px;
+      height: 37px;
+      color: #ac5429;
+      font-size: 33px;
+      line-height: 37px;
+      text-shadow: 0 1px 0 #fff0bd;
+    }
+    .form-card h2 {
+      color: #851829;
+      font: 600 25px/1.8 "Noto Serif Devanagari", serif;
+      text-shadow: 0 1px 0 #fff2cb;
+    }
+    .form-card .form-subtitle { color: #795044; font-size: 11px; line-height: 1.6; }
+    .form-fields { display: grid; gap: 11px; }
+    .form-fields input {
+      width: 100%;
+      min-height: 42px;
+      padding: 11px 14px;
+      border: 1px solid rgba(160,88,51,.18);
+      border-radius: 999px;
+      outline: none;
+      background: rgba(255,255,249,.95);
+      box-shadow: 0 2px 6px rgba(116,51,29,.08);
+      color: #572b2c;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .form-fields input:focus { border-color: #db8d3c; box-shadow: 0 0 0 3px rgba(221,141,60,.15); }
+    .built-in-greeting {
+      max-width: 290px;
+      align-self: center;
+      color: #795044;
+      font: 12px/1.8 "Noto Serif Devanagari", serif;
+    }
+    .make-wish {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid rgba(255,211,149,.6);
+      border-radius: 999px;
+      background: linear-gradient(130deg, #ad1028, #e34331);
+      box-shadow: 0 4px 12px rgba(125,17,30,.24);
+      color: #fff5df;
+      font-size: 12px;
+      line-height: 1.5;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+    .make-wish:hover, .action-button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .form-error { min-height: 17px; color: #9b1024; font-size: 11px; line-height: 1.5; }
+
+    .final-scene { padding: 20px 16px; }
+    .final-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 11px;
+      width: min(92vw, 430px);
+      max-height: calc(var(--viewport-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 32px);
+      overflow-y: auto;
+      padding: 3px 0;
+      scrollbar-width: none;
+    }
+    .final-content::-webkit-scrollbar { display: none; }
+    .personal-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      padding: 15px 20px 15px;
+      overflow: hidden;
+      border: 1.5px solid #d39a43;
+      border-radius: 17px;
+      background:
+        radial-gradient(ellipse at 50% 10%, rgba(255,255,255,.65), transparent 40%),
+        linear-gradient(160deg, #fff0c3, #f9d28c 60%, #f8b56e);
+      box-shadow: 0 0 35px rgba(255,169,75,.35), 0 12px 38px rgba(0,0,0,.4), inset 0 0 0 4px rgba(255,248,213,.38);
+      color: #761b25;
+      text-align: center;
+      animation: card-in .78s cubic-bezier(.2,.75,.25,1) both;
+    }
+    .personal-card > * { margin: 0; }
+    .personal-card::before, .personal-card::after {
+      content: "✦";
+      position: absolute;
+      top: 46%;
+      color: rgba(167,93,39,.2);
+      font-size: 23px;
+    }
+    .personal-card::before { left: 12px; }
+    .personal-card::after { right: 12px; }
+    .mandala {
+      display: block;
+      color: #9f4e31;
+      font-size: 34px;
+      line-height: 1.2;
+      text-shadow: 0 1px 0 #fff2c4, 0 0 10px rgba(210,133,61,.38);
+    }
+    .card-eyebrow { color: #95623c; font-size: 9px; line-height: 1.6; letter-spacing: .22em; text-transform: uppercase; }
+    .personal-card h1 {
+      color: #9b1429;
+      font: 600 clamp(23px, 6vw, 31px)/1.8 "Noto Serif Devanagari", serif;
+      text-shadow: 0 1px 0 #fff4d4;
+    }
+    .recipient-name {
+      color: #7c302e;
+      font: 500 14px/1.9 "Noto Serif Devanagari", serif;
+    }
+    .card-diya {
+      display: block;
+      width: 112px;
+      height: 82px;
+      filter: drop-shadow(0 4px 6px rgba(134,58,26,.17));
+    }
+    .personal-message {
+      width: min(100%, 310px);
+      color: #745044;
+      font: 12px/1.9 "Noto Serif Devanagari", serif;
+      overflow-wrap: anywhere;
+    }
+    .card-signoff {
+      color: #9a5d34;
+      font: 10px/1.6 "DM Sans", sans-serif;
+      letter-spacing: .08em;
+    }
+    .card-seal {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #ba653d;
+      border-radius: 50%;
+      background: #ae2130;
+      color: #ffdfa0;
+      font-size: 13px;
+      box-shadow: 0 1px 4px rgba(83,31,20,.3);
+    }
+    .final-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+    }
+    .action-button {
+      padding: 9px 13px;
+      border: 1px solid rgba(255,215,146,.65);
+      border-radius: 999px;
+      background: linear-gradient(140deg, #b20e2a, #df3b36);
+      box-shadow: 0 3px 10px rgba(0,0,0,.22);
+      color: #fff5e3;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+    .action-button.secondary { background: linear-gradient(140deg, #f6c26c, #e89a45); color: #6e2030; }
+    .copy-status { min-height: 12px; margin-top: -6px; color: #fff0cf; font-size: 10px; line-height: 1.5; }
+    .final-scene .side-lights { opacity: .95; }
+    .form-scene {
+      overflow-y: auto;
+      padding: max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-height: 650px) {
+      .form-card { padding: 17px 22px 15px; }
+      .form-card .form-subtitle { margin-bottom: 10px; }
+      .form-fields { gap: 8px; }
+      .form-fields input { min-height: 38px; padding: 9px 13px; }
+      .personal-card { padding: 10px 17px 11px; }
+      .card-diya { width: 98px; height: 68px; }
+      .final-content { gap: 8px; }
+    }
+    @media (max-width: 430px) {
+      .side-lights { width: 9px; }
+      .welcome-copy { padding-inline: 16px; }
+      .welcome-title { font-size: clamp(42px, 11vw, 60px); }
+      .final-scene { padding: 18px 14px; }
+      .personal-card { padding: 14px 15px; }
+      .action-button { padding: 9px 11px; font-size: 9px; line-height: 1.5; }
+    }
+    @media (max-height: 520px) {
+      .welcome-copy { padding-block: 12px; }
+      .welcome-title { font-size: clamp(38px, 10vh, 56px); }
+      .welcome-copy { gap: 5px; }
+      .welcome-sub { margin: 0; }
+      .wish-badge { margin: 0; padding-block: 4px 6px; }
+      .diya-layout { gap: 7px; }
+      .diya-svg { width: min(35vw, 170px); max-height: 42vh; }
+      .final-scene { padding-block: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-bottom)); }
+      .final-content { max-height: calc(var(--viewport-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px); }
+    }
+    @media (max-width: 600px) {
+      .form-fields input { font-size: 16px; }
+      .begin-button { min-height: 44px; }
+      .action-button { min-height: 44px; }
+    }
+    @media (min-width: 768px) {
+      .form-card { padding: 28px 30px 26px; }
+      .personal-card { padding-inline: 25px; }
+      .action-button { font-size: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="scene pattern-scene active" id="pattern" aria-label="Diwali pattern">
+      <div class="pattern-grid" id="patternGrid" aria-hidden="true"></div>
+      <p class="pattern-hint">A little light is on its way · Tap anywhere</p>
+    </section>
+
+    <section class="scene welcome-scene" id="welcome" aria-label="Diwali greeting">
+      <span class="side-lights left" aria-hidden="true"></span><span class="side-lights right" aria-hidden="true"></span>
+      <div class="welcome-copy">
+        <div class="welcome-overline">Naman wishes you</div>
+        <h1 class="welcome-title">शुभ दीपावली</h1>
+        <p class="welcome-sub">रोशनी, प्रेम और खुशियों का त्योहार</p>
+        <div class="wish-badge">मंगलमय दीपावली</div>
+        <button class="begin-button" id="beginButton" type="button">Tap to Begin</button>
+      </div>
+    </section>
+
+    <section class="scene diya-scene" id="diya" aria-label="Light the diya">
+      <span class="side-lights left" aria-hidden="true"></span><span class="side-lights right" aria-hidden="true"></span>
+      <div class="diya-layout">
+        <svg class="diya-svg" id="diyaButton" viewBox="0 0 320 290" role="button" tabindex="0" aria-label="Tap the diya to light it">
+          <defs>
+            <linearGradient id="frameGold" x1="0" x2="1"><stop stop-color="#9d471e"/><stop offset=".18" stop-color="#ffdf81"/><stop offset=".5" stop-color="#ffe9a1"/><stop offset=".82" stop-color="#d28231"/><stop offset="1" stop-color="#76351f"/></linearGradient>
+            <linearGradient id="oilGold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d97935"/><stop offset=".5" stop-color="#a74324"/><stop offset="1" stop-color="#68271e"/></linearGradient>
+            <radialGradient id="flameGold"><stop stop-color="#fffdf0"/><stop offset=".28" stop-color="#fff1a0"/><stop offset=".68" stop-color="#ffad3d"/><stop offset="1" stop-color="#f25130"/></radialGradient>
+            <radialGradient id="flameAura"><stop stop-color="#fff7c0" stop-opacity=".85"/><stop offset=".35" stop-color="#ffc24d" stop-opacity=".38"/><stop offset="1" stop-color="#ff9c32" stop-opacity="0"/></radialGradient>
+            <filter id="softFlameGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="9"/></filter>
+          </defs>
+          <path d="M66 248V116a94 94 0 0 1 188 0v132" fill="#eac77f" stroke="#812f1c" stroke-width="12"/>
+          <path d="M75 243V116a85 85 0 0 1 170 0v127" fill="none" stroke="url(#frameGold)" stroke-width="8"/>
+          <path d="M87 228V116a73 73 0 0 1 146 0v112" fill="none" stroke="#f8dfa0" stroke-width="2" opacity=".8"/>
+          <circle cx="160" cy="63" r="13" fill="#e3b65e" stroke="#9e552d" stroke-width="2"/>
+          <path d="M160 53l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#fff1bc"/>
+          <circle cx="160" cy="141" r="17" fill="#e5b969" stroke="#a2512b" stroke-width="2"/>
+          <path d="M160 130l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#fff0b3"/>
+          <g class="diya-flower" transform="translate(103 194)">
+            <circle r="5" fill="#a84037"/>
+            <g fill="#e7705d"><ellipse cy="-9" rx="4" ry="7"/><ellipse cy="9" rx="4" ry="7"/><ellipse cx="-9" rx="7" ry="4"/><ellipse cx="9" rx="7" ry="4"/></g>
+            <circle r="2.7" fill="#ffdb72"/>
+          </g>
+          <g class="diya-flower" transform="translate(217 194)">
+            <circle r="5" fill="#a84037"/>
+            <g fill="#e7705d"><ellipse cy="-9" rx="4" ry="7"/><ellipse cy="9" rx="4" ry="7"/><ellipse cx="-9" rx="7" ry="4"/><ellipse cx="9" rx="7" ry="4"/></g>
+            <circle r="2.7" fill="#ffdb72"/>
+          </g>
+          <path d="M114 219q46-14 92 0l17 30q-63 28-126 0z" fill="url(#oilGold)" stroke="#6b2a1c" stroke-width="3"/>
+          <path d="M117 220q43-10 86 0" fill="none" stroke="#ffd779" stroke-width="3"/>
+          <path d="M139 249q21 8 42 0" fill="none" stroke="#f39b4e" stroke-width="2"/>
+          <ellipse class="diya-aura" cx="160" cy="175" rx="69" ry="75" fill="url(#flameAura)" filter="url(#softFlameGlow)"/>
+          <ellipse class="diya-aura" cx="160" cy="192" rx="39" ry="9" fill="#ffb63c" opacity=".25" filter="url(#softFlameGlow)"/>
+          <g class="flame-group">
+            <path d="M160 190c-20-15-16-30-8-43 5-9 10-17 11-29 12 16 23 30 18 49-3 13-11 20-21 23z" fill="url(#flameGold)"/>
+            <path d="M160 186c-8-8-6-16-2-23 3-5 5-9 5-14 8 11 12 19 8 28-2 5-6 8-11 9z" fill="#fff5bf" opacity=".9"/>
+            <path d="M157 191q3-5 6-1" fill="none" stroke="#74311e" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </svg>
+        <p class="diya-instruction" id="diyaInstruction">Tap the diya to light it.</p>
+        <p class="diya-greeting">दीपों की रोशनी आपके जीवन को खुशियों से भर दे।</p>
+      </div>
+    </section>
+
+    <section class="scene night-scene" id="sky" aria-label="Launch a Diwali rocket">
+      <canvas class="sky-canvas" id="skyCanvas" aria-hidden="true"></canvas>
+      <span class="side-lights left" aria-hidden="true"></span><span class="side-lights right" aria-hidden="true"></span>
+      <div class="rocket-wrap">
+        <button class="rocket-button" id="rocketButton" type="button" aria-label="Launch the Diwali rocket">
+          <span class="rocket-art" aria-hidden="true"></span><span class="rocket-fin left" aria-hidden="true"></span><span class="rocket-fin right" aria-hidden="true"></span><span class="rocket-tail" aria-hidden="true"></span>
+        </button>
+        <p class="rocket-instruction" id="rocketInstruction">Tap to launch your rocket</p>
+      </div>
+      <div class="comment-prompt">Comment “DIWALI” for link ↗</div>
+    </section>
+
+    <section class="scene form-scene" id="create" aria-label="Create your Diwali wish">
+      <canvas class="sky-canvas" id="formCanvas" aria-hidden="true"></canvas>
+      <span class="side-lights left" aria-hidden="true"></span><span class="side-lights right" aria-hidden="true"></span>
+      <form class="form-card" id="wishForm">
+        <span class="card-ornament" aria-hidden="true">❀</span>
+        <h2>शुभ दीपावली</h2>
+        <p class="form-subtitle">Wish your loved ones a happy Diwali!</p>
+        <p class="built-in-greeting">आपके जीवन में सुख, शांति और समृद्धि के दीप सदा जगमगाते रहें।</p>
+        <div class="form-fields">
+          <input id="senderName" name="name" type="text" maxlength="48" placeholder="Your Name" aria-label="Your name" autocomplete="name" required>
+        </div>
+        <p class="form-error" id="formError" aria-live="polite"></p>
+        <button class="make-wish" type="submit">Make My Diwali Wish</button>
+      </form>
+    </section>
+
+    <section class="scene final-scene" id="final" aria-label="Your personalized Diwali greeting">
+      <canvas class="sky-canvas" id="finalCanvas" aria-hidden="true"></canvas>
+      <span class="side-lights left" aria-hidden="true"></span><span class="side-lights right" aria-hidden="true"></span>
+      <div class="final-content">
+        <article class="personal-card" id="personalCard">
+          <span class="mandala" aria-hidden="true">❋</span>
+          <p class="card-eyebrow">With light & love</p>
+          <h1>नमन की शुभ दीपावली</h1>
+          <p class="recipient-name" id="recipientName"></p>
+          <svg class="card-diya" viewBox="0 0 150 112" aria-hidden="true">
+            <defs>
+              <linearGradient id="cardBowl" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#f7ad43"/><stop offset=".55" stop-color="#bb542c"/><stop offset="1" stop-color="#812c28"/></linearGradient>
+              <radialGradient id="cardFlame"><stop stop-color="#fff9cf"/><stop offset=".4" stop-color="#ffd565"/><stop offset="1" stop-color="#f58332"/></radialGradient>
+            </defs>
+            <ellipse cx="75" cy="42" rx="30" ry="28" fill="#ffcf63" opacity=".22"/>
+            <path d="M75 58c-14-14-4-25 1-35 2 10 11 13 10 23 0 6-4 10-11 12z" fill="url(#cardFlame)"/>
+            <path d="M26 66q49-19 98 0l-11 24q-38 19-76 0z" fill="url(#cardBowl)" stroke="#873426" stroke-width="2"/>
+            <path d="M28 66q47-16 94 0" fill="none" stroke="#ffe294" stroke-width="4"/>
+            <path d="M48 91q27 10 54 0" fill="none" stroke="#ffd07a" stroke-width="2"/>
+            <circle cx="30" cy="62" r="4" fill="#d74b48"/><circle cx="120" cy="62" r="4" fill="#d74b48"/>
+            <path d="M75 14v7" stroke="#9f482d" stroke-width="2"/>
+          </svg>
+          <p class="personal-message" id="personalMessage"></p>
+          <p class="card-signoff">May your home shine with happiness &mdash; Naman</p>
+          <span class="card-seal" aria-hidden="true">दीप</span>
+        </article>
+        <div class="final-actions">
+          <button class="action-button" id="shareButton" type="button">WhatsApp पर Share करें</button>
+          <button class="action-button secondary" id="copyButton" type="button">Copy Wish</button>
+          <button class="action-button" id="anotherButton" type="button">Make Another Wish</button>
+        </div>
+        <span class="copy-status" id="copyStatus" aria-live="polite"></span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const scenes = [...document.querySelectorAll(".scene")];
+      const patternGrid = document.getElementById("patternGrid");
+      for (let i = 0; i < 180; i += 1) {
+        const motif = document.createElement("span");
+        motif.className = "pattern-motif";
+        patternGrid.append(motif);
+      }
+
+      let activeScene = "pattern";
+      let patternTimer;
+      let launchTimer;
+      let isLit = false;
+      let isLaunched = false;
+      let savedName = "";
+      const builtInGreeting = "आपके जीवन में सुख, शांति और समृद्धि के दीप सदा जगमगाते रहें।";
+
+      function showScene(id) {
+        activeScene = id;
+        scenes.forEach((scene) => {
+          const active = scene.id === id;
+          scene.classList.toggle("active", active);
+          scene.setAttribute("aria-hidden", String(!active));
+        });
+        if (id === "final") startFireworks(true);
+        else if (id === "sky" || id === "create") startFireworks(false);
+        else {
+          canvasActive = false;
+          if (animationFrame) cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
+      }
+
+      function advanceFromPattern() {
+        if (activeScene !== "pattern") return;
+        clearTimeout(patternTimer);
+        showScene("welcome");
+      }
+
+      patternTimer = setTimeout(advanceFromPattern, 2600);
+      document.getElementById("pattern").addEventListener("click", advanceFromPattern);
+      document.getElementById("beginButton").addEventListener("click", () => {
+        showScene("diya");
+        isLit = false;
+        document.getElementById("diya").classList.remove("lit");
+        document.getElementById("diyaInstruction").textContent = "Tap the diya to light it.";
+      });
+
+      function lightDiya() {
+        if (activeScene !== "diya" || isLit) return;
+        isLit = true;
+        document.getElementById("diya").classList.add("lit");
+        document.getElementById("diyaInstruction").textContent = "May your Diwali glow with joy.";
+        window.setTimeout(() => {
+          if (activeScene !== "diya") return;
+          isLaunched = false;
+          document.getElementById("rocketButton").classList.remove("launching");
+          showScene("sky");
+          window.setTimeout(launchRocket, 3900);
+        }, 2600);
+      }
+
+      const diyaButton = document.getElementById("diyaButton");
+      diyaButton.addEventListener("click", lightDiya);
+      diyaButton.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          lightDiya();
+        }
+      });
+
+      function launchRocket() {
+        if (activeScene !== "sky" || isLaunched) return;
+        isLaunched = true;
+        clearTimeout(launchTimer);
+        const rocket = document.getElementById("rocketButton");
+        document.getElementById("rocketInstruction").textContent = "Sending wishes up to the stars…";
+        rocket.classList.add("launching");
+        window.setTimeout(() => {
+          if (activeScene !== "sky") return;
+          burstAt(window.innerWidth * .5, window.innerHeight * .42, 105);
+        }, 500);
+        window.setTimeout(() => {
+          if (activeScene === "sky") showScene("create");
+        }, 1900);
+      }
+
+      document.getElementById("rocketButton").addEventListener("click", launchRocket);
+      document.getElementById("wishForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const nameInput = document.getElementById("senderName");
+        savedName = nameInput.value.trim();
+        const error = document.getElementById("formError");
+        if (!savedName) {
+          error.textContent = "Please enter your name to make your wish.";
+          nameInput.focus();
+          return;
+        }
+        error.textContent = "";
+        document.getElementById("recipientName").textContent = `${savedName}, शुभ दीपावली!`;
+        document.getElementById("personalMessage").textContent = builtInGreeting;
+        document.getElementById("copyStatus").textContent = "";
+        showScene("final");
+      });
+
+      function getGreetingText() {
+        return `नमन की शुभ दीपावली\\n${savedName}, शुभ दीपावली!\\n${builtInGreeting}\\nMay your home shine with happiness — Naman`;
+      }
+
+      function getShareText() {
+        if (window.location.protocol !== "http:" && window.location.protocol !== "https:") {
+          return getGreetingText();
+        }
+        const pageUrl = new URL(window.location.href);
+        pageUrl.search = "";
+        pageUrl.hash = "";
+        return `${getGreetingText()}\\n\\nCreate your own wish: ${pageUrl.href}`;
+      }
+
+      document.getElementById("shareButton").addEventListener("click", () => {
+        const shareUrl = `https://wa.me/?text=${encodeURIComponent(getShareText())}`;
+        window.open(shareUrl, "_blank", "noopener,noreferrer");
+      });
+
+      document.getElementById("copyButton").addEventListener("click", async () => {
+        const status = document.getElementById("copyStatus");
+        try {
+          await navigator.clipboard.writeText(getGreetingText());
+          status.textContent = "Wish copied!";
+        } catch (error) {
+          const text = getGreetingText();
+          const field = document.createElement("textarea");
+          field.value = text;
+          field.setAttribute("readonly", "");
+          field.style.position = "fixed";
+          field.style.opacity = "0";
+          document.body.append(field);
+          field.select();
+          const copied = document.execCommand("copy");
+          field.remove();
+          if (!copied) {
+            status.textContent = "Could not copy. Please select the greeting and copy it.";
+            return;
+          }
+          status.textContent = "Wish copied!";
+        }
+      });
+
+      document.getElementById("anotherButton").addEventListener("click", () => {
+        document.getElementById("wishForm").reset();
+        document.getElementById("formError").textContent = "";
+        document.getElementById("copyStatus").textContent = "";
+        showScene("create");
+        document.getElementById("senderName").focus();
+      });
+
+      const fireworks = new Map();
+      let animationFrame = 0;
+      let lastAutoBurst = 0;
+      let canvasActive = false;
+      const colors = ["#ffd45d", "#ffae42", "#ff65a8", "#cf77ff", "#83dfff", "#fff4d5"];
+
+      function sizeCanvases() {
+        document.querySelectorAll(".sky-canvas").forEach((canvas) => {
+          const rect = canvas.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(rect.width * dpr);
+          canvas.height = Math.round(rect.height * dpr);
+          const context = canvas.getContext("2d");
+          context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        });
+      }
+
+      function currentCanvas() {
+        const canvasId = activeScene === "final" ? "finalCanvas" : activeScene === "create" ? "formCanvas" : "skyCanvas";
+        return document.getElementById(canvasId);
+      }
+
+      function burstAt(x, y, count = 70) {
+        const palette = colors[Math.floor(Math.random() * colors.length)];
+        const particles = fireworks.get(activeScene) || [];
+        for (let i = 0; i < count; i += 1) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.1 + Math.random() * (count > 90 ? 5 : 3.6);
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: .72 + Math.random() * .55,
+            maxLife: 1.05 + Math.random() * .5,
+            size: .7 + Math.random() * 1.8,
+            color: Math.random() < .72 ? palette : colors[Math.floor(Math.random() * colors.length)],
+            gravity: .018 + Math.random() * .025
+          });
+        }
+        fireworks.set(activeScene, particles);
+      }
+
+      function startFireworks(finalMode) {
+        sizeCanvases();
+        canvasActive = true;
+        lastAutoBurst = performance.now() - (finalMode ? 1500 : 0);
+        if (!animationFrame) animationFrame = requestAnimationFrame(drawFireworks);
+      }
+
+      function drawFireworks(now) {
+        animationFrame = 0;
+        if (!canvasActive) return;
+        const canvas = currentCanvas();
+        const context = canvas.getContext("2d");
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        context.clearRect(0, 0, width, height);
+
+        const finalMode = activeScene === "final";
+        const shouldBurst = finalMode || activeScene === "create";
+        if (shouldBurst && now - lastAutoBurst > (finalMode ? 1050 + Math.random() * 1000 : 1900)) {
+          const side = Math.random() < .5;
+          const x = side ? width * (.08 + Math.random() * .2) : width * (.72 + Math.random() * .2);
+          const y = height * (.13 + Math.random() * .66);
+          burstAt(x, y, finalMode ? 54 + Math.floor(Math.random() * 48) : 30);
+          lastAutoBurst = now;
+        }
+
+        const particles = fireworks.get(activeScene) || [];
+        context.save();
+        context.globalCompositeOperation = "lighter";
+        for (let i = particles.length - 1; i >= 0; i -= 1) {
+          const particle = particles[i];
+          particle.life -= .012;
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          particle.vy += particle.gravity;
+          particle.vx *= .991;
+          const alpha = Math.max(0, particle.life / particle.maxLife);
+          context.globalAlpha = alpha;
+          context.fillStyle = particle.color;
+          context.shadowBlur = finalMode ? 10 : 8;
+          context.shadowColor = particle.color;
+          context.beginPath();
+          context.arc(particle.x, particle.y, particle.size * alpha + .25, 0, Math.PI * 2);
+          context.fill();
+          if (particle.life <= 0) particles.splice(i, 1);
+        }
+        context.restore();
+        fireworks.set(activeScene, particles);
+        animationFrame = requestAnimationFrame(drawFireworks);
+      }
+
+      window.addEventListener("resize", sizeCanvases);
+      window.addEventListener("pagehide", () => {
+        canvasActive = false;
+        if (animationFrame) cancelAnimationFrame(animationFrame);
+        clearTimeout(patternTimer);
+        clearTimeout(launchTimer);
+      });
+    })();
+  </script>
+</body>
+</html>
